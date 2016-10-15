@@ -6,8 +6,8 @@ A programming competition generally involves the host presenting a set of logica
  
  
 This repository contains multiples exercises/contests (one per branch) from different online resources
-  - [HackerRank](www.hackerrank.com)
-  - [CodinGame](www.codingame.com/servlet/urlinvite?u=1099833)
-  - [TopCoder](www.topcoder.com)
-  - [/r/dailyprogrammer](www.reddit.com/r/dailyprogrammer)
+  - [HackerRank](https://www.hackerrank.com/)
+  - [CodinGame](http://www.codingame.com/servlet/urlinvite?u=1099833)
+  - [TopCoder](http://www.topcoder.com)
+  - [r/DailyProgrammer](http://www.reddit.com/r/DailyProgrammer)
   - More...
