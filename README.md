@@ -1,4 +1,4 @@
-# Sport Programming
+# Competitive programming
 
 [Competitive programming](https://en.wikipedia.org/wiki/Competitive_programming) is a mind sport usually held over the Internet or a local network, involving participants trying to program according to provided specifications. Contestants are referred to as sport programmers. Competitive programming is recognized and supported by several multinational software and Internet companies, such as Google, Facebook and IBM. There are several organizations who host programming competitions on a regular basis.
 
