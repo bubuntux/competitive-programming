@@ -6,6 +6,7 @@ A programming competition generally involves the host presenting a set of logica
  
  
 This repository contains multiples exercises/contests (one per branch) from different online resources
+  - [LeetCode](https://leetcode.com/)
   - [HackerRank](https://www.hackerrank.com/)
   - [CodinGame](http://www.codingame.com/servlet/urlinvite?u=1099833)
   - [TopCoder](http://www.topcoder.com)
