@@ -1,0 +1,12 @@
+.gitignore
+**/target/
+*.log
+
+### Rust ###
+Cargo.lock
+**/*.rs.bk
+
+### Java ###
+*.class
+*.jar
+hs_err_pid*

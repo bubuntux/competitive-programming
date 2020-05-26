@@ -5,7 +5,7 @@
 A programming competition generally involves the host presenting a set of logical or mathematical problems to the contestants (who can vary in number from tens to several thousands), and contestants are required to write computer programs capable of solving each problem. Judging is based mostly upon number of problems solved and time spent for writing successful solutions, but may also include other factors (quality of output produced, execution time, program size, etc.).
  
  
-This repository contains multiples exercises/contests (one per branch) from different online resources
+This repository contains multiples exercises/contests from different online resources
   - [LeetCode](https://leetcode.com/)
   - [HackerRank](https://www.hackerrank.com/)
   - [CodinGame](http://www.codingame.com/servlet/urlinvite?u=1099833)
