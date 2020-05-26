@@ -9,4 +9,5 @@ Cargo.lock
 ### Java ###
 *.class
 *.jar
+!gradle-wrapper.jar
 hs_err_pid*
