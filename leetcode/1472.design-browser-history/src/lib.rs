@@ -16,22 +16,15 @@ impl BrowserHistory {
 
     fn back(&mut self, steps: i32) -> String {
         let aux = self.index as i32 - steps;
-        if aux <= 0 {
-            self.index = 0;
-        } else {
-            self.index = aux as usize;
-        }
-        self.history[self.index].clone()
+        self.index = if aux <= 0 { 0 } else { aux as usize };
+        self.history[self.index].to_string()
     }
 
     fn forward(&mut self, steps: i32) -> String {
+        let len = self.history.len();
         let aux = self.index as i32 + steps;
-        if aux >= self.history.len() as i32 {
-            self.index = self.history.len() - 1;
-        } else {
-            self.index = aux as usize;
-        }
-        self.history[self.index].clone()
+        self.index = if aux >= len as i32 { len - 1 } else { aux as usize };
+        self.history[self.index].to_string()
     }
 }
 
