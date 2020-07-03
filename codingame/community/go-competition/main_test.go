@@ -66,35 +66,14 @@ func process(board []string) (uint, uint) {
 			if blackBorder == whiteBoarder {
 				continue
 			}
-			if blackBorder > whiteBoarder {
+			if whiteBoarder == 0 {
 				black += cells
-			} else {
+			} else if blackBorder == 0 {
 				white += cells
 			}
 
-			//TODO debug
-			/*for i := 0; i < len(visitedRegion); i++ {
-				for j := 0; j < len(visitedRegion[i]); j++ {
-					if visitedRegion[i][j] {
-						if board[i][j] == '.' {
-							if blackBorder > whiteBoarder {
-								board[i] = board[i][0:j] + "b" + board[i][j+1:]
-							} else {
-								board[i] = board[i][0:j] + "w" + board[i][j+1:]
-							}
-						}
-					}
-				}
-			}*/
-			//TODO debug
 		}
 	}
-
-	//TODO debug
-	/*for i := 0; i < len(board); i++ {
-		println(board[i])
-	}*/
-	//TODO debug
 
 	return black, white
 }
