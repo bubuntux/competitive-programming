@@ -1,31 +1,25 @@
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 class LRUCache {
 
     private final LinkedHashMap<Integer, Integer> map;
-    private final int cap;
 
     public LRUCache(int capacity) {
-        map = new LinkedHashMap<>(capacity);
-        cap = capacity;
+        map = new LinkedHashMap<>(capacity + 1, 1.0F, true) {
+            @Override
+            protected boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest) {
+                return size() > capacity;
+            }
+        };
     }
 
     public int get(int key) {
-        Integer value = map.remove(key);
-        if (value == null) {
-            return -1;
-        }
-        map.put(key, value);
-        return value;
+        return map.getOrDefault(key, -1);
     }
 
     public void put(int key, int value) {
-        map.remove(key);
         map.put(key, value);
-        if (map.size() > cap) {
-            Integer toRemove = map.keySet().iterator().next();
-            map.remove(toRemove);
-        }
     }
 
 }
