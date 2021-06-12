@@ -11,6 +11,9 @@ func minPartitions(n string) int {
 		if d > max {
 			max = d
 		}
+		if max == 9 {
+			break
+		}
 	}
 	return max
 }
