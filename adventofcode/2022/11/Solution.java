@@ -44,7 +44,7 @@ public class Solution {
         private final IntUnaryOperator operation;
         private final IntUnaryOperator nextMonkeyOperator;
 
-        public Monkey(Collection<Integer> items, IntUnaryOperator operation, IntUnaryOperator nextMonkeyOperator, Integer... ite) {
+        public Monkey(Collection<Integer> items, IntUnaryOperator operation, IntUnaryOperator nextMonkeyOperator) {
             this.items = new LinkedList<>(items);
             this.operation = operation;
             this.nextMonkeyOperator = nextMonkeyOperator;
