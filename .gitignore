@@ -1,20 +1,21 @@
-LICENSE
-target/
-build/
 *.log
 
 ### Rust ###
+debug/
+target/
 Cargo.lock
 *.rs.bk
+*.pdb
 
 ### Java ###
 *.class
 *.jar
-!gradle-wrapper.jar
-hs_err_pid*
-.idea/
 *.iml
+hs_err_pid*
+!gradle-wrapper.jar
 .project
 .settings
 .classpath
+.idea/
+build/
 out/
