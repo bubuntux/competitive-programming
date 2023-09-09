@@ -2,15 +2,21 @@
 
 impl Solution {
     pub fn majority_element(nums: Vec<i32>) -> i32 {
-        let mut map = std::collections::HashMap::new();
+        let mut res = nums[0];
+        let mut count = 1;
 
-        for n in nums {
-            map.entry(n)
-                .and_modify(|counter| *counter += 1)
-                .or_insert(1);
+        for i in 1..nums.len() {
+            if count == 0 {
+                res = nums[i];
+                count = 1;
+            } else if res == nums[i] {
+                count += 1;
+            } else {
+                count -= 1;
+            }
         }
 
-        *map.iter().max_by_key(|entry| entry.1).unwrap().0
+        res
     }
 }
 
