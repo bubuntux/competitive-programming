@@ -22,6 +22,9 @@ impl Solution {
                 }
                 _ => break,
             }
+            if result == i32::MIN || result == i32::MAX {
+                break;
+            }
         }
 
         return result;
