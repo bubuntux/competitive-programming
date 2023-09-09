@@ -2,11 +2,9 @@
 
 impl Solution {
     pub fn my_atoi(s: String) -> i32 {
-        let s = s.trim_start();
-
+        let mut chars = s.trim_start().chars();
         let mut result = 0;
         let mut sign = 1;
-        let mut chars = s.chars();
 
         match chars.next() {
             Some('+') => (),
