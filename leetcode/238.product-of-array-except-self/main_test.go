@@ -6,27 +6,22 @@ import (
 )
 
 func productExceptSelf(nums []int) []int {
-	leftP := make([]int, len(nums))
-	rightP := make([]int, len(nums))
+	size := len(nums)
+	result := make([]int, size)
 
 	aux := 1
-	for i, n := range nums {
-		leftP[i] = aux
-		aux = aux * n
-	}
-
-	aux = 1
-	for i := len(nums) - 1; i >= 0; i-- {
-		rightP[i] = aux
+	for i := 0; i < size; i++ {
+		result[i] = aux
 		aux = aux * nums[i]
 	}
 
-	anwser := make([]int, len(nums))
-	for i := range nums {
-		anwser[i] = leftP[i] * rightP[i]
+	aux = 1
+	for i := size - 1; i >= 0; i-- {
+		result[i] = result[i] * aux
+		aux = aux * nums[i]
 	}
 
-	return anwser
+	return result
 }
 
 // https://leetcode.com/problems/product-of-array-except-self
