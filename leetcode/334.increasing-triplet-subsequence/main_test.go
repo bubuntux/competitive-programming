@@ -7,20 +7,19 @@ import (
 )
 
 func increasingTriplet(nums []int) bool {
-	if len(nums) < 3 {
+	if nums != nil && len(nums) < 3 {
 		return false
 	}
 
-	p1 := math.MaxInt
-	p2 := math.MaxInt
+	first, second := math.MaxInt, math.MaxInt
 
-	for _, v := range nums {
-		if v <= p1 {
-			p1 = v
+	for _, n := range nums {
+		if n <= first {
+			first = n
 			continue
 		}
-		if v <= p2 {
-			p2 = v
+		if n <= second {
+			second = n
 			continue
 		}
 		return true
