@@ -1,39 +1,29 @@
 package main
 
 import (
-	"math"
 	"testing"
 )
 
 func maxOperations(nums []int, k int) int {
-	m := make(map[int]int)
-	b := make(map[int]bool)
-	for _, v := range nums {
-		m[v] = m[v] + 1
-		b[v] = true
-	}
-
+	dict := make(map[int]int)
 	count := 0
-	for v := range m {
-		if b[v] == false {
-			continue
-		}
-
-		r := k - v
-		if r == v {
-			count = count + m[v]/2
+	for _, num := range nums {
+		target := k - num
+		if v, ok := dict[target]; ok {
+			count++
+			if v > 1 {
+				dict[target]--
+			} else {
+				delete(dict, target)
+			}
 		} else {
-			count = count + int(math.Min(float64(m[v]), float64(m[r])))
+			dict[num]++
 		}
-
-		b[v] = false
-		b[r] = false
 	}
-
 	return count
 }
 
-// https://leetcode.com/problems/merge-strings-alternately/
+// https://leetcode.com/problems/max-number-of-k-sum-pairs/
 
 func Test(t *testing.T) {
 	tests := []struct {
