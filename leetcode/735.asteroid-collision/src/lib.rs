@@ -19,6 +19,8 @@ impl Solution {
     }
 }
 
+// https://leetcode.com/problems/asteroid-collision/
+
 struct Solution;
 
 #[cfg(test)]
