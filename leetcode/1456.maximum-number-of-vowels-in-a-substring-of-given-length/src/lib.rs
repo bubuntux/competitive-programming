@@ -1,11 +1,8 @@
 impl Solution {
     fn is_vowel(c: char) -> bool {
         match c {
-            'a' => true,
-            'e' => true,
-            'i' => true,
-            'o' => true,
-            'u' => true,
+            'a' | 'e' | 'i' | 'o' | 'u' => true,
+            'A' | 'E' | 'I' | 'O' | 'U' => true,
             _ => false,
         }
     }
