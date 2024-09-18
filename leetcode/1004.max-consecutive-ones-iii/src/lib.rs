@@ -18,7 +18,7 @@ impl Solution {
     }
 }
 
-// https://leetcode.com/problems/max-consecutive-ones-ii
+// https://leetcode.com/problems/max-consecutive-ones-iii
 
 struct Solution;
 
