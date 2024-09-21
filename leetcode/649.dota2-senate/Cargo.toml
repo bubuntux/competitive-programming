@@ -1,0 +1,6 @@
+[package]
+name = "dota2-senate"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
