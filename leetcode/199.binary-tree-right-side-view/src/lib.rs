@@ -1,30 +1,22 @@
 use std::cell::RefCell;
-use std::collections::HashMap;
 use std::rc::Rc;
 
 type Node = Rc<RefCell<TreeNode>>;
 
 impl Solution {
     pub fn right_side_view(root: Option<Node>) -> Vec<i32> {
-        let mut res = HashMap::new();
+        let mut res = Vec::new();
         Self::bfs(root.as_ref(), 0, &mut res);
-        let maxLevel = res.clone().into_keys().max();
-        if let Some(ml) = maxLevel {
-            let mut x = vec![];
-            for i in 0..(ml + 1) {
-                x.push(*res.get(&i).unwrap())
-            }
-            x
-        } else {
-            vec![]
-        }
+        res
     }
 
-    fn bfs(root: Option<&Node>, level: u32, path: &mut HashMap<u32, i32>) {
+    fn bfs(root: Option<&Node>, level: usize, path: &mut Vec<i32>) {
         match root {
             None => {}
             Some(node) => {
-                path.entry(level).or_insert(node.borrow().val);
+                if level == path.len() {
+                    path.push(node.borrow().val)
+                }
                 Self::bfs(node.borrow().right.as_ref(), level + 1, path);
                 Self::bfs(node.borrow().left.as_ref(), level + 1, path)
             }
