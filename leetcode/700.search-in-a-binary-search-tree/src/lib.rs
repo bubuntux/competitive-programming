@@ -16,11 +16,11 @@ impl Solution {
                 if target == val {
                     return Some(node.clone());
                 }
-                let right = Self::dfs(node.borrow().right.as_ref(), target);
-                if right.is_some() {
-                    return right;
+                if val < target {
+                    Self::dfs(node.borrow().right.as_ref(), target)
+                } else {
+                    Self::dfs(node.borrow().left.as_ref(), target)
                 }
-                Self::dfs(node.borrow().left.as_ref(), target)
             }
         }
     }
