@@ -1,0 +1,6 @@
+[package]
+name = "reorder-routes-to-make-all-paths-lead-to-the-city-zero"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
