@@ -16,18 +16,22 @@ fn is_safe(a: isize, b: isize, sign: isize) -> bool {
     (1..=3).contains(&(b - a).mul(sign))
 }
 
+fn is_report_safe(report: &[isize], sign: isize) -> bool {
+    for (prev, curr) in report.iter().zip(report.iter().skip(1)) {
+        if !is_safe(*prev, *curr, sign) {
+            return false;
+        }
+    }
+    true
+}
+
 #[allow(dead_code)]
 fn part1(input: &str) -> usize {
     get_reports(input)
         .iter()
-        .filter(|report| {
+        .filter(|&report| {
             let sign = (report[1] - report[0]).signum() | 1;
-            for (prev, curr) in report.iter().zip(report.iter().skip(1)) {
-                if !is_safe(*prev, *curr, sign) {
-                    return false;
-                }
-            }
-            true
+            is_report_safe(report, sign)
         })
         .count()
 }
@@ -36,11 +40,26 @@ fn part1(input: &str) -> usize {
 fn part2(input: &str) -> usize {
     get_reports(input)
         .iter()
-        .filter(|report| is_report_safe(report, 1) || is_report_safe(report, -1))
+        .filter(|&report| is_report_safe_brute_force(report))
+        //  .filter(|report| is_report_safe3(report, 1) || is_report_safe3(report, -1))
         .count()
 }
 
-fn is_report_safe(report: &[isize], sign: isize) -> bool {
+fn is_report_safe_brute_force(report: &Vec<isize>) -> bool {
+    if is_report_safe(report, 1) || is_report_safe(report, -1) {
+        return true;
+    }
+    for i in 0..report.len() {
+        let mut x = report.clone();
+        x.remove(i);
+        if is_report_safe(&x, 1) || is_report_safe(&x, -1) {
+            return true;
+        }
+    }
+    false
+}
+
+fn is_report_safe3(report: &[isize], sign: isize) -> bool {
     let mut change = 0;
     for w in report.windows(3) {
         let safe1 = if change == 1 {
@@ -53,6 +72,15 @@ fn is_report_safe(report: &[isize], sign: isize) -> bool {
         if safe1 && safe2 {
             continue;
         }
+        if !safe1 && safe2 {
+            change = 2;
+            continue;
+        }
+        if safe1 && !safe2 {
+            change = 1;
+            continue;
+        }
+
         if change > 0 || !is_safe(w[0], w[2], sign) {
             return false;
         }
@@ -87,6 +115,7 @@ mod test {
         let input = fs::read_to_string("./src/day2/input").expect("read input");
         let result = part1(&input);
         print!("answer1 {}", result);
+        assert_eq!(result, 236);
     }
 
     #[test]
@@ -103,6 +132,8 @@ mod test {
         assert!(result > 261);
         assert_ne!(result, 265);
         assert_ne!(result, 266);
+        assert_ne!(result, 277);
         print!("answer2 {}", result);
+        assert_eq!(result, 308);
     }
 }
