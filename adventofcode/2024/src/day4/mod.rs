@@ -148,7 +148,25 @@ fn up_right(matrix: &[Vec<char>], x: usize, y: usize, target: &str) -> bool {
 
 #[allow(dead_code)]
 fn part2(input: &str) -> usize {
-    0
+    let matrix = input
+        .lines()
+        .map(|line| line.trim().chars().collect::<Vec<char>>())
+        .filter(|row| !row.is_empty())
+        .collect::<Vec<Vec<char>>>();
+
+    let mut sum = 0;
+
+    for y in 0..matrix.len() - 2 {
+        for x in 0..matrix[y].len() {
+            if (right_down(&matrix, x, y, "MAS") || right_down(&matrix, x, y, "SAM"))
+                && (up_right(&matrix, x, y + 2, "MAS") || up_right(&matrix, x, y + 2, "SAM"))
+            {
+                sum += 1
+            }
+        }
+    }
+
+    sum
 }
 
 #[cfg(test)]
@@ -213,9 +231,21 @@ mod test {
 
     #[test]
     fn example2() {
-        let result =
-            part2("xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))");
-        assert_eq!(result, 48);
+        let result = part2(
+            "
+            .M.S......
+            ..A..MSMS.
+            .M.S.MAA..
+            ..A.ASMSM.
+            .M.S.M....
+            ..........
+            S.S.S.S.S.
+            .A.A.A.A..
+            M.M.M.M.M.
+            ..........
+            ",
+        );
+        assert_eq!(result, 9);
     }
 
     #[test]
