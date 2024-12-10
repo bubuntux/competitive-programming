@@ -1,4 +1,5 @@
 use std::{
+    cmp::Ordering,
     collections::{HashMap, HashSet},
     ops::Div,
 };
@@ -20,7 +21,14 @@ fn part1(input: &str) -> isize {
             continue;
         }
         match RE_OREDRING.captures(line) {
-            None => sum += get_valid_mid_value(&ordering, line),
+            None => {
+                let line: Vec<&str> = line.split(',').collect();
+                sum += if is_valid(&ordering, &line) {
+                    get_middle_value(&line)
+                } else {
+                    0
+                }
+            }
             Some(cap) => add_ordering(&mut ordering, cap),
         }
     }
@@ -28,43 +36,35 @@ fn part1(input: &str) -> isize {
     sum
 }
 
-fn get_valid_mid_value(ordering: &HashMap<String, HashSet<String>>, line: &str) -> isize {
-    let split: Vec<&str> = line.split(',').collect();
-    let processed: HashMap<String, usize> = split
-        .iter()
-        .enumerate()
-        .map(|(i, v)| (String::from(*v), i))
-        .collect();
-    //  println!("processed = {:?}", processed);
-    let mut valid = true;
-    for (i, x) in split.iter().enumerate() {
-        let x = String::from(*x);
-        match ordering.get(&x) {
-            None => continue,
-            Some(o) => {
-                //   println!("i={:?}, x={:?}", i, x);
-                //   println!("ordering = {:?}", o);
-                if !o.iter().all(|oe| {
-                    let get = *processed.get(oe).unwrap_or(&0);
-                    //         println!("oe={:?} get={:?}", oe, get);
-                    get <= i
-                }) {
-                    valid = false;
-                    //           println!("invalid");
-                    break;
-                }
-            }
-        }
-    }
+fn is_valid(ordering: &HashMap<String, HashSet<String>>, line: &[&str]) -> bool {
+    let processed: HashSet<String> = line.iter().map(|v| String::from(*v)).collect();
 
-    if valid {
-        let div_ceil = split.len().div(2);
-        let parse = split[div_ceil].parse::<isize>().unwrap();
-        // println!("middle i={:?}, value={:?}", div_ceil, parse);
-        parse
-    } else {
-        0
-    }
+    line.is_sorted_by(|a, b| {
+        !processed.contains(*a)
+            || ordering
+                .get(*b)
+                .unwrap_or(&HashSet::new())
+                .contains(&String::from(*a))
+    })
+}
+
+fn fix(ordering: &HashMap<String, HashSet<String>>, line: &mut [&str]) {
+    line.sort_by(|a, b| {
+        if ordering
+            .get(*b)
+            .unwrap_or(&HashSet::new())
+            .contains(&String::from(*a))
+        {
+            Ordering::Less
+        } else {
+            Ordering::Greater
+        }
+    });
+}
+
+fn get_middle_value(line: &[&str]) -> isize {
+    let middle_index = line.len().div(2);
+    line[middle_index].parse::<isize>().unwrap()
 }
 
 fn add_ordering(ordering: &mut HashMap<String, HashSet<String>>, cap: regex::Captures<'_>) {
@@ -77,8 +77,28 @@ fn add_ordering(ordering: &mut HashMap<String, HashSet<String>>, cap: regex::Cap
 }
 
 #[allow(dead_code)]
-fn part2(input: &str) -> usize {
-    0
+fn part2(input: &str) -> isize {
+    let mut ordering: HashMap<String, HashSet<String>> = HashMap::new();
+
+    let mut sum = 0;
+    for line in input.trim().lines() {
+        let line = line.trim();
+        if line.is_empty() {
+            continue;
+        }
+        match RE_OREDRING.captures(line) {
+            None => {
+                let mut line: Vec<&str> = line.split(',').collect();
+                if !is_valid(&ordering, &line) {
+                    fix(&ordering, &mut line);
+                    sum += get_middle_value(&line);
+                }
+            }
+            Some(cap) => add_ordering(&mut ordering, cap),
+        }
+    }
+
+    sum
 }
 
 #[cfg(test)]
@@ -87,10 +107,7 @@ mod test {
     use super::*;
     use std::fs;
 
-    #[test]
-    fn example1_2() {
-        let result = part1(
-            "
+    const EXAMPLE: &str = "
             47|53
             97|13
             97|61
@@ -119,8 +136,11 @@ mod test {
             75,97,47,61,53
             61,13,29
             97,13,75,29,47
-            ",
-        );
+            ";
+
+    #[test]
+    fn example1() {
+        let result = part1(EXAMPLE);
         assert_eq!(result, 143);
     }
 
@@ -129,15 +149,13 @@ mod test {
         let input = fs::read_to_string("./src/day5/input").expect("read input");
         let result = part1(&input);
         print!("answer1 {}", result);
+        assert_eq!(result, 5955);
     }
 
     #[test]
     fn example2() {
-        let result = part2(
-            "
-            ",
-        );
-        assert_eq!(result, 9);
+        let result = part2(EXAMPLE);
+        assert_eq!(result, 123);
     }
 
     #[test]
@@ -145,5 +163,6 @@ mod test {
         let input = fs::read_to_string("./src/day5/input").expect("read input");
         let result = part2(&input);
         print!("answer2 {}", result);
+        assert_eq!(result, 4030);
     }
 }
