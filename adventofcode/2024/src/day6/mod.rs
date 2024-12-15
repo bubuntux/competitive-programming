@@ -206,5 +206,6 @@ mod test {
         let input = fs::read_to_string("./src/day6/input").expect("read input");
         let result = part2(&input);
         print!("answer2 {}", result);
+        assert_eq!(result, 2008);
     }
 }
