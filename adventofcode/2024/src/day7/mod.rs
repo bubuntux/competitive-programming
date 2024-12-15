@@ -25,28 +25,42 @@ fn get_lines(input: &str) -> Vec<Line> {
 fn part1(input: &str) -> usize {
     get_lines(input)
         .iter()
-        .filter(|line| is_valid(line))
+        .filter(|line| validate1(line, 1, line.elements[0]))
         .map(|line| line.result)
         .sum()
 }
 
-fn is_valid(line: &Line) -> bool {
-    validate(line, 1, line.elements[0])
-}
-
-fn validate(line: &Line, i: usize, acc: usize) -> bool {
+fn validate1(line: &Line, i: usize, acc: usize) -> bool {
     if i >= line.elements.len() {
         return acc == line.result;
     }
     let sum = acc + line.elements[i];
     let mul = acc * line.elements[i];
-    (sum <= line.result && validate(line, i + 1, sum))
-        || (mul <= line.result && validate(line, i + 1, mul))
+    (sum <= line.result && validate1(line, i + 1, sum))
+        || (mul <= line.result && validate1(line, i + 1, mul))
 }
 
 #[allow(dead_code)]
 fn part2(input: &str) -> usize {
-    0
+    get_lines(input)
+        .iter()
+        .filter(|line| validate2(line, 1, line.elements[0]))
+        .map(|line| line.result)
+        .sum()
+}
+
+fn validate2(line: &Line, i: usize, acc: usize) -> bool {
+    if i >= line.elements.len() {
+        return acc == line.result;
+    }
+    let sum = acc + line.elements[i];
+    let mul = acc * line.elements[i];
+    let concat = format!("{}{}", acc, line.elements[i])
+        .parse::<usize>()
+        .unwrap();
+    (sum <= line.result && validate2(line, i + 1, sum))
+        || (mul <= line.result && validate2(line, i + 1, mul))
+        || (concat <= line.result && validate2(line, i + 1, concat))
 }
 
 #[cfg(test)]
@@ -84,7 +98,7 @@ mod test {
     #[test]
     fn example2() {
         let result = part2(EXAMPLE);
-        assert_eq!(result, 0);
+        assert_eq!(result, 11387);
     }
 
     #[test]
@@ -92,5 +106,6 @@ mod test {
         let input = fs::read_to_string("./src/day7/input").expect("read input");
         let result = part2(&input);
         print!("answer2 {}", result);
+        assert_eq!(result, 492383931650959);
     }
 }
