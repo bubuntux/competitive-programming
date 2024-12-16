@@ -59,6 +59,7 @@ fn is_report_safe_brute_force(report: &Vec<isize>) -> bool {
     false
 }
 
+#[allow(dead_code)]
 fn is_report_safe3(report: &[isize], sign: isize) -> bool {
     let mut change = 0;
     for w in report.windows(3) {
