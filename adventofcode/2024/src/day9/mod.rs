@@ -65,7 +65,7 @@ fn checksum(blocks: &[Block]) -> usize {
 }
 
 #[allow(dead_code)]
-fn part2(input: &str) -> usize {
+fn part2(_: &str) -> usize {
     0
 }
 
