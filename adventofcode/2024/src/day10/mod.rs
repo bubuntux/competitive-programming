@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, usize};
 
 #[allow(dead_code)]
 fn part1(input: &str) -> usize {
@@ -9,11 +9,6 @@ fn part1(input: &str) -> usize {
         .flat_map(|(y, row)| row.iter().enumerate().map(move |(x, cell)| (y, x, cell)))
         .filter(|(_, _, cell)| *cell == &0)
         .fold(0, |sum, (y, x, _)| sum + score(&matrix, y, x))
-}
-
-#[allow(dead_code)]
-fn part2(input: &str) -> usize {
-    0
 }
 
 fn score(matrix: &[Vec<usize>], y: usize, x: usize) -> usize {
@@ -65,6 +60,46 @@ fn get_matrix(input: &str) -> Vec<Vec<usize>> {
         .collect::<Vec<Vec<usize>>>()
 }
 
+#[allow(dead_code)]
+fn part2(input: &str) -> usize {
+    let matrix = get_matrix(input);
+    matrix
+        .iter()
+        .enumerate()
+        .flat_map(|(y, row)| row.iter().enumerate().map(move |(x, cell)| (y, x, cell)))
+        .filter(|(_, _, cell)| *cell == &0)
+        .fold(0, |sum, (y, x, _)| sum + rank(&matrix, y, x))
+}
+
+fn rank(matrix: &[Vec<usize>], y: usize, x: usize) -> usize {
+    iter2(matrix, y, x, 1)
+}
+
+fn iter2(matrix: &[Vec<usize>], y: usize, x: usize, target: usize) -> usize {
+    if matrix[y][x] == 9 {
+        return 1;
+    }
+
+    let mut paths = 0;
+    let new_y = y + 1;
+    if new_y < matrix.len() && matrix[new_y][x] == target {
+        paths += iter2(matrix, new_y, x, target + 1);
+    }
+    let (new_y, overflow) = y.overflowing_sub(1);
+    if !overflow && matrix[new_y][x] == target {
+        paths += iter2(matrix, new_y, x, target + 1);
+    }
+    let new_x = x + 1;
+    if new_x < matrix[y].len() && matrix[y][new_x] == target {
+        paths += iter2(matrix, y, new_x, target + 1);
+    }
+    let (new_x, overflow) = x.overflowing_sub(1);
+    if !overflow && matrix[y][new_x] == target {
+        paths += iter2(matrix, y, new_x, target + 1);
+    }
+    paths
+}
+
 #[cfg(test)]
 mod test {
 
@@ -98,7 +133,7 @@ mod test {
     #[test]
     fn example2() {
         let result = part2(EXAMPLE);
-        assert_eq!(result, 0);
+        assert_eq!(result, 81);
     }
 
     #[test]
@@ -106,5 +141,6 @@ mod test {
         let input = fs::read_to_string("./src/day10/input").expect("read input");
         let result = part2(&input);
         print!("answer2 {}", result);
+        assert_eq!(result, 1302);
     }
 }
