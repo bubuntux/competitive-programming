@@ -36,14 +36,17 @@ fn part1(input: &str) -> usize {
 
 #[allow(dead_code)]
 fn part2(input: &str) -> usize {
-    0
+    let mut stones = get_stones(input);
+    for _ in 0..75 {
+        blink(&mut stones);
+    }
+    stones.len()
 }
 
 #[cfg(test)]
 mod test {
 
     use super::*;
-    use std::fs;
 
     const EXAMPLE: &str = "125 17";
 
@@ -63,13 +66,12 @@ mod test {
     #[test]
     fn example2() {
         let result = part2(EXAMPLE);
-        assert_eq!(result, 0);
+        assert_eq!(result, 55312);
     }
 
     #[test]
     fn answer2() {
-        let input = fs::read_to_string("./src/day11/input").expect("read input");
-        let result = part2(&input);
+        let result = part2("30 71441 3784 580926 2 8122942 0 291");
         print!("answer2 {}", result);
     }
 }
