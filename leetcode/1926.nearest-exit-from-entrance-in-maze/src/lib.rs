@@ -9,6 +9,9 @@ impl Solution {
             let mut next_paths = vec![];
 
             for path in paths {
+                if maze[path.0 as usize][path.1 as usize] == '+' {
+                    continue;
+                }
                 maze[path.0 as usize][path.1 as usize] = '+';
 
                 // up
