@@ -5,6 +5,9 @@
 pub mod ex10_lite_1;
 pub mod ex10_lite_2;
 pub mod ex10_lite_3;
+pub mod ex10_pro_1;
+pub mod ex10_pro_2;
+pub mod ex10_pro_3;
 pub mod ex2;
 pub mod ex4;
 pub mod ex6;
