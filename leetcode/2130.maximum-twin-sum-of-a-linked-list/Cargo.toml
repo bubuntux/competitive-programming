@@ -1,6 +1,0 @@
-[package]
-name = "maximum-twin-sum-of-a-linked-list"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]

@@ -1,6 +1,0 @@
-[package]
-name = "maximum-average-subarray-i"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]

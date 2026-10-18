@@ -1,6 +1,0 @@
-[package]
-name = "reveal-cards-in-increasing-order"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
