@@ -1,0 +1,46 @@
+name: Rust
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      crates: ${{ steps.find.outputs.crates }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v31
+      - id: find
+        run: |
+          # devenv setups with rust enabled
+          DEVENV_DIRS=$(find . -name devenv.nix -not -path '*/.devenv/*' -printf '%h\n' | sed 's|^\./||' | sort)
+          export DEVENV_DIRS
+          crates=$(nix eval --impure --json --file .github/rust-devenvs.nix)
+          echo "crates=$crates" >> "$GITHUB_OUTPUT"
+
+  test:
+    needs: discover
+    name: test (${{ matrix.crate }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # rustlings has unfinished exercises that are expected not to compile
+    continue-on-error: ${{ matrix.crate == 'rustlings' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        crate: ${{ fromJson(needs.discover.outputs.crates) }}
+    defaults:
+      run:
+        working-directory: ${{ matrix.crate }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v31
+      - uses: cachix/cachix-action@v17
+        with:
+          name: devenv
+      - run: nix profile add nixpkgs#devenv
+      - run: devenv shell -- cargo test
