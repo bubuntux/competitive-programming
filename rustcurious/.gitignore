@@ -11,4 +11,3 @@ devenv.local.yaml
 
 # Rust
 /target
-!Cargo.lock
